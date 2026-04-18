@@ -37,28 +37,47 @@ class TestApp(unittest.TestCase):
     # Uncomment and complete these tests if you implement
     # the below routes
 
-    # def test_multiply_endpoint(self):
-    #     # Prepare test data
-    #     payload = json.dumps({
-    #         "number_1": 4,
-    #         "number_2": 5
-    #     })
-    #
+    def test_multiply_endpoint(self):
+        payload = json.dumps({"number_1": 4,"number_2": 5})
+    
     #     # TODO: Get Response from API endpoint '/api/multiply'
-    #     # response = self.client.post('/api/multiply', data=payload,
-    #     #                             content_type='application/json')
+        response = self.client.post('/api/multiply', data=payload, content_type='application/json')
     #
     #     # TODO: Assert equals if API response is OK (200)
-    #     # self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
     #
     #     # TODO: Assert equals if API response 'result' is 20 (4 * 5)
-    #     # self.assertEqual(response.json, {"result": 20})
+        self.assertEqual(response.json, {"result": 20})
 
-    # def test_subtract_endpoint(self):
-    #     # Write test code here
+    def test_subtract_endpoint(self):
+        payload = json.dumps({
+            "number_1": 17,
+            "number_2": 6
+        })
+        response = self.client.post('/api/subtract',
+                                    data=payload,
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {"result": 11})
 
-    # def test_divide_endpoint(self):
-    #     # Write test code here
+    def test_divide_endpoint(self):
+        payload = json.dumps({
+            "number_1": 10,
+            "number_2": 2
+        })
+        response = self.client.post('/api/divide',
+                                    data=payload,
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {"result": 5.0})
+        
+    def test_divide_by_zero(self):
+        payload = json.dumps({"number_1": 10, "number_2": 0})
+        response = self.client.post('/api/divide', 
+                                    data=payload, 
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json, {"error": "Cannot divide by zero"})
 
     # Add more tests for any additional routes created
 
